@@ -1,4 +1,33 @@
-1) You added a new dependency for MySQL connector in pom.xml but it s not downloadinf which command will you use  to force update maven to update dependencies
-2) you want to skip running tests during the build process for faster deployment. WHICH MVEN COMMAND  will you use
-3) The metro booking system requires different dbs settings for dev and prod. How do you configure maven to handle this
-4) Your metro booking system build id failing with the error "plugin org.apace.maven.pluginns:maven-compiler-plugin not found" how will you fiz this error
+1) While working on index.jsp you made UI fixes but mistakenly commited them on the main branch instead of Ui-fixes. How do you move that commit from main to ui-fixes
+2)your teamate force-pushed the main branch of metro repo and now your local history doesn't match what steps would you take to safely align your main branch with the remote
+3) you are working on payment-module in metro repo while merging into main you face a conflict in bookingController.java
+4) you accedentally deleted the booking-module branch from metro repo but its commits are not merged yet
+5)you made 3 commits in flightsearchController.java in repo. Your management wants them to combined into a single commit
+6) you commited "Remove metro cancellation features" in metro repo but need to bring it back
+7) you started implementing DiscountServices.java in metro repo but had to pause for a hotfix
+8) you notice many unneccesary merge commits cluttering the log in Metro repo
+9) your manager asks you to generate patch files for the llast two commits you made in payement-module and apply it
+10)you force pushed to main by mistake and overwrote a teamates commit in metro repo
+give me a single lined answers for all the above questions
+
+Use git checkout ui-fixes to switch to the branch and then git cherry-pick <commit-hash> to move the commit from main to ui-fixes.
+
+Run git fetch origin followed by git reset --hard origin/main to align with the remote.
+
+Resolve the conflict in bookingController.java, then git add . and git merge --continue.
+
+Recreate the branch using git checkout -b booking-module <commit-hash> from where it was deleted.
+
+Use git rebase -i HEAD~3, squash the commits, and save the changes.
+
+Use git revert <commit-hash> to bring back the removal commit.
+
+Stash the current changes with git stash and apply the hotfix.
+
+Use git rebase -i --root to clean up unnecessary merge commits.
+
+Run git format-patch -2 to generate patches and git apply <patch-file> to apply them.
+
+Use git reflog to find the lost commit, then git checkout <commit-hash> and git push --force
+
+
