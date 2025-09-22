@@ -1,0 +1,139 @@
+From 943a6bf14e36b78c5b32268acd14468ce4d25701 Mon Sep 17 00:00:00 2001
+From: R-Shailesh-Varma <saivijaya7887@gmail.com>
+Date: Mon, 22 Sep 2025 15:28:12 +0530
+Subject: [PATCH 2/2] all
+
+---
+ docker-compose.yaml | 35 ++++++++++++++++++++++++++---------
+ src/main/text2.txt  | 29 +++++++++++++++++++++++++++++
+ src/test.txt        | 37 +++++++++++++++++++++++++++++++++----
+ 3 files changed, 88 insertions(+), 13 deletions(-)
+ create mode 100644 src/main/text2.txt
+
+diff --git a/docker-compose.yaml b/docker-compose.yaml
+index a010873..d90027b 100644
+--- a/docker-compose.yaml
++++ b/docker-compose.yaml
+@@ -1,14 +1,31 @@
+ version: '3.8'
+ 
+ services:
+-  tomcatservice:
+-    image: tomcat:9.0-jdk11-openjdk-slim
+-    container_name: plain-tomcat
++  app:
++    image: bmtserver:latest  
++    container_name: app-container
+     ports:
+-      - "8081:8080"
+-
+-  bmtserever:
+-    image: shailesh3116/bmtserver:latest
+-    container_name: bmtserver
++      - "6969:6969"   
++    environment:
++      - DB_HOST=db    
++      - DB_USER=root
++      - DB_PASSWORD=rootpassword
++      - DB_NAME=mydb
++    depends_on:
++      - db     
++  db:
++    image: mysql:8.0  
++    container_name: mysql-container
++    environment:
++      MYSQL_ROOT_PASSWORD: rootpassword
++      MYSQL_DATABASE: mydb
++      MYSQL_USER: root
++      MYSQL_PASSWORD: rootpassword
+     ports:
+-      - "8082:8080"
+\ No newline at end of file
++      - "3446:3446"  
++    volumes:
++      - mysql-data:/var/lib/mysql   
++
++volumes:
++  mysql-data:  
++
+diff --git a/src/main/text2.txt b/src/main/text2.txt
+new file mode 100644
+index 0000000..eed7b92
+--- /dev/null
++++ b/src/main/text2.txt
+@@ -0,0 +1,29 @@
++by default your metro booking system runs in port 8080. write the docker cmd to run container and map it to port
++2)yiu need to run multiple containers of mbs for testing one on :8081 and other :8082
++3)your teamate pushed updtes to docker file on main branch how will you update your main repo and rebuild image with tag v2
++4)you want to see the logs of the container named-flightbooking. cmd??
++5)the mbs image is consuming too much apCE WRITE A CMD TO REMOVE UNUSED
++6)you want to update the mbs image with a new version how do you remove the old container and reun the updated one on port 8085
++7) the mbs is crashing at startup how do you enter the containers shell to debug the ptoblem
++8)your manager asjed you to check which port the mbs is mapped to which cmd youll use
++9)how do you stop a run ning container with ID cla2b3
++answer in a single line 
++
++1. `docker run -d -p 8080:8080 mbs`
++
++2. `docker run -d -p 8081:8080 mbs`
++   `docker run -d -p 8082:8080 mbs`
++
++3. `git pull origin main && docker build -t mbs:v2 .`
++
++4. `docker logs flightbooking`
++
++5. `docker system prune -f`
++
++6. `docker rm -f <old_container_id> && docker run -d -p 8085:8080 mbs:new_version`
++
++7. `docker exec -it <container_id> /bin/sh` (or `/bin/bash`)
++
++8. `docker port <container_id_or_name>`
++
++9. `docker stop cla2b3`
+diff --git a/src/test.txt b/src/test.txt
+index 2554df7..7c96a43 100644
+--- a/src/test.txt
++++ b/src/test.txt
+@@ -1,4 +1,33 @@
+-1) You added a new dependency for MySQL connector in pom.xml but it s not downloadinf which command will you use  to force update maven to update dependencies
+-2) you want to skip running tests during the build process for faster deployment. WHICH MVEN COMMAND  will you use
+-3) The metro booking system requires different dbs settings for dev and prod. How do you configure maven to handle this
+-4) Your metro booking system build id failing with the error "plugin org.apace.maven.pluginns:maven-compiler-plugin not found" how will you fiz this error
+\ No newline at end of file
++1) While working on index.jsp you made UI fixes but mistakenly commited them on the main branch instead of Ui-fixes. How do you move that commit from main to ui-fixes
++2)your teamate force-pushed the main branch of metro repo and now your local history doesn't match what steps would you take to safely align your main branch with the remote
++3) you are working on payment-module in metro repo while merging into main you face a conflict in bookingController.java
++4) you accedentally deleted the booking-module branch from metro repo but its commits are not merged yet
++5)you made 3 commits in flightsearchController.java in repo. Your management wants them to combined into a single commit
++6) you commited "Remove metro cancellation features" in metro repo but need to bring it back
++7) you started implementing DiscountServices.java in metro repo but had to pause for a hotfix
++8) you notice many unneccesary merge commits cluttering the log in Metro repo
++9) your manager asks you to generate patch files for the llast two commits you made in payement-module and apply it
++10)you force pushed to main by mistake and overwrote a teamates commit in metro repo
++give me a single lined answers for all the above questions
++
++Use git checkout ui-fixes to switch to the branch and then git cherry-pick <commit-hash> to move the commit from main to ui-fixes.
++
++Run git fetch origin followed by git reset --hard origin/main to align with the remote.
++
++Resolve the conflict in bookingController.java, then git add . and git merge --continue.
++
++Recreate the branch using git checkout -b booking-module <commit-hash> from where it was deleted.
++
++Use git rebase -i HEAD~3, squash the commits, and save the changes.
++
++Use git revert <commit-hash> to bring back the removal commit.
++
++Stash the current changes with git stash and apply the hotfix.
++
++Use git rebase -i --root to clean up unnecessary merge commits.
++
++Run git format-patch -2 to generate patches and git apply <patch-file> to apply them.
++
++Use git reflog to find the lost commit, then git checkout <commit-hash> and git push --force
++
++
+-- 
+2.50.1.windows.1
+
