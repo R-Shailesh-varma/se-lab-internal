@@ -1,0 +1,4 @@
+1) You added a new dependency for MySQL connector in pom.xml but it s not downloadinf which command will you use  to force update maven to update dependencies
+2) you want to skip running tests during the build process for faster deployment. WHICH MVEN COMMAND  will you use
+3) The metro booking system requires different dbs settings for dev and prod. How do you configure maven to handle this
+4) Your metro booking system build id failing with the error "plugin org.apace.maven.pluginns:maven-compiler-plugin not found" how will you fiz this error
